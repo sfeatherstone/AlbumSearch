@@ -1,4 +1,4 @@
-package uk.co.wedgetech.blockchain.model
+package uk.co.wedgetech.blockchain.model.network
 
 import com.google.gson.annotations.SerializedName
 import java.util.*

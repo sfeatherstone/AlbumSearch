@@ -4,20 +4,21 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import uk.co.wedgetech.blockchain.R
-import uk.co.wedgetech.blockchain.model.CurrencyListingData
-import uk.co.wedgetech.blockchain.model.CurrencyQuote
+import uk.co.wedgetech.blockchain.model.Currency
+import uk.co.wedgetech.blockchain.model.network.CurrencyListingData
+import uk.co.wedgetech.blockchain.model.network.CurrencyQuote
 
 class CurrencyAdapter(private val listener: CardViewPressListener) : RecyclerView.Adapter<CurrencyViewHolder>() {
 
     interface CardViewPressListener {
-        fun onClick(currency: CurrencyListingData)
+        fun onClick(currency: Currency, position: Int)
     }
 
-    private var items: List<CurrencyListingData> = List(0) {
-        CurrencyListingData(0,0, "","", "", CurrencyQuote("","","","")) }
+    private var items: List<Currency> = listOf()
 
-    fun setCurrency(medals :List<CurrencyListingData>) {
-        items = medals
+
+    fun setCurrency(currencyList :List<Currency>) {
+        items = currencyList
         notifyDataSetChanged()
     }
 
@@ -30,7 +31,7 @@ class CurrencyAdapter(private val listener: CardViewPressListener) : RecyclerVie
     override fun getItemCount(): Int = items.size
 
     override fun onBindViewHolder(holder: CurrencyViewHolder, position: Int) {
-        return holder.bindHost(items[position], listener)
+        return holder.bindHost(items[position], position, listener)
     }
 
 }

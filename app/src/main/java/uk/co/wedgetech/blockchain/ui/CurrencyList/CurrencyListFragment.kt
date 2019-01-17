@@ -12,7 +12,9 @@ import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.currency_list_fragment.*
 
 import uk.co.wedgetech.blockchain.R
-import uk.co.wedgetech.blockchain.model.CurrencyListingData
+import uk.co.wedgetech.blockchain.model.Currency
+import uk.co.wedgetech.blockchain.model.network.CurrencyListingData
+import uk.co.wedgetech.blockchain.ui.Detail.ViewPagerFragment
 import uk.co.wedgetech.blockchain.viewmodel.CurrencyListViewModel
 
 class CurrencyListFragment : Fragment() {
@@ -37,7 +39,7 @@ class CurrencyListFragment : Fragment() {
         viewModel = ViewModelProviders.of(this).get(CurrencyListViewModel::class.java)
 
         //Catch medal data
-        val currencyObserver = Observer<List<CurrencyListingData>> { currencies ->
+        val currencyObserver = Observer<List<Currency>> { currencies ->
             if (currencies!=null)    {
                 currencyAdapter.setCurrency(currencies)
             }
@@ -47,8 +49,10 @@ class CurrencyListFragment : Fragment() {
         viewModel.fetchCurrencies()
 
         val listener = object : CurrencyAdapter.CardViewPressListener {
-            override fun onClick(currency: CurrencyListingData) {
-                //TODO
+            override fun onClick(currency: Currency, position: Int) {
+                activity?.supportFragmentManager?.beginTransaction()
+                    ?.replace(R.id.container, ViewPagerFragment.newInstance(position), "MAIN")
+                    ?.commitNow()
             }
         }
         currencyAdapter = CurrencyAdapter(listener)

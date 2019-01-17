@@ -1,4 +1,4 @@
-package uk.co.wedgetech.blockchain.model
+package uk.co.wedgetech.blockchain.model.network
 
 import com.google.gson.JsonParseException
 import com.google.gson.JsonDeserializationContext
@@ -19,10 +19,12 @@ data class CurrencyQuote(val currency:String, val price: String, val volume24h: 
                 val currency = it.keySet()?.iterator()?.next()
                 currency?.let() { currencyName ->
                     val innerObject = it[currency].asJsonObject
-                    CurrencyQuote(currencyName,
+                    CurrencyQuote(
+                        currencyName,
                         innerObject["price"].asString,
                         innerObject["volume_24h"].asString,
-                        innerObject["market_cap"].asString)
+                        innerObject["market_cap"].asString
+                    )
                 }
             }
         }

@@ -9,11 +9,11 @@ import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.Query
 import uk.co.wedgetech.blockchain.BuildConfig
-import uk.co.wedgetech.blockchain.model.CurrencyListingPayload
+import uk.co.wedgetech.blockchain.model.network.CurrencyListingPayload
 
 interface CurrencyAPI {
     @GET("/v1/cryptocurrency/listings/latest")
-    fun loadHosts(@Query("start") start:Int,
+    fun loadCurrencies(@Query("start") start:Int,
                   @Query("limit") limit:Int,
                   @Query("convert") currency:String,
                   @Header("X-CMC_PRO_API_KEY") apiKey: String)
