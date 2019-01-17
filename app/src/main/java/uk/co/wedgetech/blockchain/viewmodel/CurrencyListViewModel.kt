@@ -26,27 +26,6 @@ class CurrencyListViewModel : ViewModel() {
 
     private val disposables = CompositeDisposable()
 
-/*
-    fun fetchCurrencies() {
-        val subscribe = CurrencyAPI.currencyAPI.loadHosts(1,50,"GBP", BuildConfig.API_TOKEN)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribeWith(
-                object : DisposableSingleObserver<CurrencyListingPayload>() {
-
-                    override fun onSuccess(value: CurrencyListingPayload) {
-                        currenciesMutable.value = value.data
-                    }
-
-                    override fun onError(e: Throwable) {
-                    }
-
-                }
-            )
-        disposables.add(subscribe)
-    }
-*/
-
     fun fetchCurrencies() {
         val subscribe = currencyCached.getCurrencyData(false)
             .subscribeOn(Schedulers.io())

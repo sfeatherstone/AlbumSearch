@@ -8,9 +8,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
+import androidx.lifecycle.Observer
 import kotlinx.android.synthetic.main.view_holder_fragment.*
 
 import uk.co.wedgetech.blockchain.R
+import uk.co.wedgetech.blockchain.model.Currency
 import uk.co.wedgetech.blockchain.viewmodel.CurrencyListViewModel
 
 private const val ARG_PARAM1 = "param1"
@@ -37,11 +39,22 @@ class ViewPagerFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
 
         viewModel = ViewModelProviders.of(this).get(CurrencyListViewModel::class.java)
+
         activity?.let {
             pagerAdapter = DemoCollectionPagerAdapter(it.supportFragmentManager)
-            viewpager.adapter = pagerAdapter
-            viewpager.currentItem = initialPosition
         }
+
+        val currencyObserver = Observer<List<Currency>> { currencies ->
+            if (currencies!=null)    {
+                pagerAdapter.setItems(currencies)
+                viewpager.adapter = pagerAdapter
+                viewpager.currentItem = initialPosition
+            }
+        }
+
+        viewModel.currencies.observe(this, currencyObserver)
+        viewModel.fetchCurrencies()
+
 
     }
 
@@ -56,11 +69,15 @@ class ViewPagerFragment : Fragment() {
             }
     }
 
-
 }
-class DemoCollectionPagerAdapter(fm: FragmentManager) : FragmentStatePagerAdapter(fm) {
 
-    override fun getCount(): Int  = 50
+class DemoCollectionPagerAdapter(fm: FragmentManager) : FragmentStatePagerAdapter(fm) {
+    private lateinit var currencies : List<Currency>
+
+    fun setItems(items :List<Currency>) {
+        this.currencies = items
+    }
+    override fun getCount(): Int  = currencies.size
 
     override fun getItem(i: Int): Fragment {
         return CurrencyDetailFragment.newInstance(i)
