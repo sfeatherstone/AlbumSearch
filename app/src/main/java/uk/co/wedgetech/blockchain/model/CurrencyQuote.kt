@@ -16,7 +16,7 @@ data class CurrencyQuote(val currency:String, val price: String, val volume24h: 
         @Throws(JsonParseException::class)
         override fun deserialize(json: JsonElement, typeOfT: Type, context: JsonDeserializationContext): CurrencyQuote? {
             return json.asJsonObject?.let() {
-                val currency = it?.keySet()?.iterator()?.next()
+                val currency = it.keySet()?.iterator()?.next()
                 currency?.let() { currencyName ->
                     val innerObject = it[currency].asJsonObject
                     CurrencyQuote(currencyName,
