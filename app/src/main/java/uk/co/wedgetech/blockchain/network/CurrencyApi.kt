@@ -18,18 +18,4 @@ interface CurrencyAPI {
                   @Query("convert") currency:String,
                   @Header("X-CMC_PRO_API_KEY") apiKey: String)
             : Single<CurrencyListingPayload>
-
-    companion object {
-        //Added to allow for testing
-        private var BASE_URL : String = BuildConfig.BASE_API
-
-        val currencyAPI : CurrencyAPI = Retrofit.Builder()
-            .baseUrl(BASE_URL)
-            .client(OkHttpClient())
-            .addConverterFactory(GsonConverterFactory.create())
-            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-            .build().create<CurrencyAPI>(CurrencyAPI::class.java)
-
-    }
-
 }
