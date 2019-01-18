@@ -27,7 +27,7 @@ class CurrencyListFragment : Fragment() {
         ViewModelProviders.of(this, injector.currencyListViewModelFactory()).get(CurrencyListViewModel::class.java)
     }
 
-    internal lateinit var currencyAdapter : CurrencyAdapter
+    private lateinit var currencyAdapter : CurrencyAdapter
 
 
     override fun onCreateView(

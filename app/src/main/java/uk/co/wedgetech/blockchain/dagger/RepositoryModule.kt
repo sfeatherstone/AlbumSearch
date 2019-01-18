@@ -1,20 +1,19 @@
 package uk.co.wedgetech.blockchain.dagger
 
+import android.content.Context
 import dagger.Module
 import dagger.Provides
-import okhttp3.OkHttpClient
-import retrofit2.Retrofit
-import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
-import retrofit2.converter.gson.GsonConverterFactory
-import uk.co.wedgetech.blockchain.BuildConfig
 import uk.co.wedgetech.blockchain.network.CurrencyAPI
 import uk.co.wedgetech.blockchain.repository.CurrencyCached
+import uk.co.wedgetech.blockchain.util.BestCurrency
 import javax.inject.Singleton
 
-@Module
+@Module( includes = [ RetrofitModule::class ])
 object RepositoryModule {
-
     @JvmStatic @Provides
     @Singleton
-    fun provideCurrencyCached(): CurrencyCached = CurrencyCached()
+    fun provideCurrencyCached(currencyAPI: CurrencyAPI, bestCurrency: BestCurrency): CurrencyCached = CurrencyCached(currencyAPI, bestCurrency)
+
+    @JvmStatic @Provides
+    fun provideBestCurrency(context: Context): BestCurrency = BestCurrency(context)
 }

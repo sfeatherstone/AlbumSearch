@@ -22,8 +22,8 @@ class CurrencyListingPayloadTest{
         Assert.assertNull(targetObject.status.errorMessage)
 
 
-        Assert.assertEquals(targetObject.data.size, 50)
-        Assert.assertEquals(targetObject.data[0] , CurrencyListingData(
+        Assert.assertEquals(targetObject.data?.size, 50)
+        Assert.assertEquals(targetObject.data?.get(0) , CurrencyListingData(
             1, 1, "Bitcoin",
             "17435912", "21000000",
             CurrencyQuote(
@@ -35,7 +35,7 @@ class CurrencyListingPayloadTest{
         )
         )
 
-        Assert.assertEquals(targetObject.data[37] , CurrencyListingData(
+        Assert.assertEquals(targetObject.data?.get(37) , CurrencyListingData(
             1567, 38, "Nano",
             "133248289.1965", "133248290",
             CurrencyQuote(

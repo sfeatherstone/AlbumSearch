@@ -1,11 +1,14 @@
 package uk.co.wedgetech.blockchain.repository
 
+import android.util.Log
 import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
 import uk.co.wedgetech.blockchain.BuildConfig
 import uk.co.wedgetech.blockchain.model.Currency
 import uk.co.wedgetech.blockchain.model.network.CurrencyListingPayload
 import uk.co.wedgetech.blockchain.network.CurrencyAPI
+import uk.co.wedgetech.blockchain.util.BestCurrency
+import javax.inject.Inject
 
 //Convert from network format to UI format model class
 private fun convert(value: CurrencyListingPayload):Single<List<Currency>> {
@@ -30,12 +33,13 @@ private fun convert(value: CurrencyListingPayload):Single<List<Currency>> {
     }
 }
 
-class CurrencyCached {
-    var cache: Single<List<Currency>>? = null
+class CurrencyCached @Inject constructor(private val currencyAPI: CurrencyAPI, private val bestCurrency: BestCurrency){
+    private var cache: Single<List<Currency>>? = null
 
     fun getCurrencyData(forceNetworkUpdate: Boolean = false) : Single<List<Currency>> {
         if (forceNetworkUpdate || cache==null) {
-            cache = CurrencyAPI.currencyAPI.loadCurrencies(1, 50, "GBP", BuildConfig.API_TOKEN)
+            //TODO change limit
+            cache = currencyAPI.loadCurrencies(1, 5000, bestCurrency.getCurrency(), BuildConfig.API_TOKEN)
                 .subscribeOn(Schedulers.io())
                 .flatMap { value -> convert(value) }
                 .cache()

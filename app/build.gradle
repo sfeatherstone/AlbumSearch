@@ -14,10 +14,14 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
 
+/*
         buildConfigField "String", "BASE_API", "\"https://sandbox-api.coinmarketcap.com/\""
         buildConfigField "String", "API_TOKEN", "\"151cd86d-35f2-461f-8f51-f697a2caf436\""
-//        buildConfigField "String", "BASE_API", "\"https://pro-api.coinmarketcap.com/\""
-//        buildConfigField "String", "API_TOKEN", "\"9dcbd78a-3258-438b-bd1e-8a695bf5c9a1\""
+*/
+
+        buildConfigField "String", "BASE_API", "\"https://pro-api.coinmarketcap.com/\""
+        buildConfigField "String", "API_TOKEN", "\"9dcbd78a-3258-438b-bd1e-8a695bf5c9a1\""
+
     }
     buildTypes {
         release {
@@ -50,8 +54,8 @@ dependencies {
     implementation 'com.squareup.retrofit2:adapter-rxjava2:2.4.0'
 
     //Dagger2
-    implementation 'androidx.legacy:legacy-support-v4:1.0.0-beta01'
-    implementation 'androidx.lifecycle:lifecycle-extensions:2.0.0-beta01'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.1.0-alpha01'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.0.0'
     kapt 'com.google.dagger:dagger-compiler:2.16'
     implementation 'com.google.dagger:dagger:2.16'
