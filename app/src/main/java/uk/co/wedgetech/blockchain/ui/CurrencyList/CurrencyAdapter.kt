@@ -5,8 +5,6 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import uk.co.wedgetech.blockchain.R
 import uk.co.wedgetech.blockchain.model.Currency
-import uk.co.wedgetech.blockchain.model.network.CurrencyListingData
-import uk.co.wedgetech.blockchain.model.network.CurrencyQuote
 
 class CurrencyAdapter(private val listener: CardViewPressListener) : RecyclerView.Adapter<CurrencyViewHolder>() {
 

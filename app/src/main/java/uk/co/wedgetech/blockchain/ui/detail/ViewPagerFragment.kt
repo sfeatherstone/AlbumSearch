@@ -1,4 +1,4 @@
-package uk.co.wedgetech.blockchain.ui.Detail
+package uk.co.wedgetech.blockchain.ui.detail
 
 import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
@@ -12,6 +12,7 @@ import androidx.lifecycle.Observer
 import kotlinx.android.synthetic.main.view_holder_fragment.*
 
 import uk.co.wedgetech.blockchain.R
+import uk.co.wedgetech.blockchain.dagger.injector
 import uk.co.wedgetech.blockchain.model.Currency
 import uk.co.wedgetech.blockchain.viewmodel.CurrencyListViewModel
 
@@ -19,7 +20,9 @@ private const val ARG_PARAM1 = "param1"
 
 class ViewPagerFragment : Fragment() {
 
-    private lateinit var viewModel: CurrencyListViewModel
+    private val viewModel by lazy {
+        ViewModelProviders.of(this, injector.currencyListViewModelFactory()).get(CurrencyListViewModel::class.java)
+    }
 
     private lateinit var pagerAdapter: DemoCollectionPagerAdapter
     private var initialPosition: Int = 0
@@ -37,8 +40,6 @@ class ViewPagerFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-
-        viewModel = ViewModelProviders.of(this).get(CurrencyListViewModel::class.java)
 
         activity?.let {
             pagerAdapter = DemoCollectionPagerAdapter(it.supportFragmentManager)

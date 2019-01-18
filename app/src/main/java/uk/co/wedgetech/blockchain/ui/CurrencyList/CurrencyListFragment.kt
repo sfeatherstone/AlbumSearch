@@ -11,10 +11,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.currency_list_fragment.*
 
+import uk.co.wedgetech.blockchain.dagger.injector
 import uk.co.wedgetech.blockchain.R
 import uk.co.wedgetech.blockchain.model.Currency
-import uk.co.wedgetech.blockchain.model.network.CurrencyListingData
-import uk.co.wedgetech.blockchain.ui.Detail.ViewPagerFragment
+import uk.co.wedgetech.blockchain.ui.detail.ViewPagerFragment
 import uk.co.wedgetech.blockchain.viewmodel.CurrencyListViewModel
 
 class CurrencyListFragment : Fragment() {
@@ -23,7 +23,10 @@ class CurrencyListFragment : Fragment() {
         fun newInstance() = CurrencyListFragment()
     }
 
-    private lateinit var viewModel: CurrencyListViewModel
+    private val viewModel by lazy {
+        ViewModelProviders.of(this, injector.currencyListViewModelFactory()).get(CurrencyListViewModel::class.java)
+    }
+
     internal lateinit var currencyAdapter : CurrencyAdapter
 
 
@@ -36,7 +39,7 @@ class CurrencyListFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProviders.of(this).get(CurrencyListViewModel::class.java)
+        //viewModel = ViewModelProviders.of(this).get(CurrencyListViewModel::class.java)
 
         //Catch medal data
         val currencyObserver = Observer<List<Currency>> { currencies ->

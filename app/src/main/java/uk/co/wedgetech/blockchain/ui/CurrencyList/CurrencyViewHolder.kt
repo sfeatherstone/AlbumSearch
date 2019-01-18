@@ -5,7 +5,6 @@ import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.currency_card.*
 import kotlinx.android.extensions.LayoutContainer
 import uk.co.wedgetech.blockchain.model.Currency
-import uk.co.wedgetech.blockchain.model.network.CurrencyListingData
 
 class CurrencyViewHolder(override val containerView: View) : RecyclerView.ViewHolder(containerView), LayoutContainer {
 

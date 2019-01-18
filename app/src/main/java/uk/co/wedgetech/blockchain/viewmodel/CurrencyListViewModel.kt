@@ -5,24 +5,17 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel;
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
-import uk.co.wedgetech.blockchain.BuildConfig
-import uk.co.wedgetech.blockchain.model.network.CurrencyListingData
-import uk.co.wedgetech.blockchain.model.network.CurrencyListingPayload
-import uk.co.wedgetech.blockchain.network.CurrencyAPI
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.observers.DisposableSingleObserver
 import uk.co.wedgetech.blockchain.model.Currency
 import uk.co.wedgetech.blockchain.repository.CurrencyCached
+import javax.inject.Inject
 
 
-class CurrencyListViewModel : ViewModel() {
-
-    private val currencyCached = CurrencyCached()
+class CurrencyListViewModel @Inject constructor(private val currencyCached: CurrencyCached) : ViewModel() {
 
     private val currenciesMutable : MutableLiveData<List<Currency>> = MutableLiveData()
     val currencies: LiveData<List<Currency>> = currenciesMutable
-
-    val size :Int = currencies.value?.size ?: 0
 
     private val disposables = CompositeDisposable()
 
@@ -45,10 +38,6 @@ class CurrencyListViewModel : ViewModel() {
         disposables.add(subscribe)
     }
 
-
-    fun getCurrency(position: Int): Currency? {
-        return currencies.value?.get(position)
-    }
 
     override fun onCleared() {
         super.onCleared()

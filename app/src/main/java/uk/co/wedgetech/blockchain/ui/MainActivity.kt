@@ -9,7 +9,6 @@ import uk.co.wedgetech.blockchain.viewmodel.CurrencyListViewModel
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var viewModel: CurrencyListViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -19,6 +18,5 @@ class MainActivity : AppCompatActivity() {
                 .replace(R.id.container, CurrencyListFragment.newInstance(), "MAIN")
                 .commitNow()
         }
-        viewModel = ViewModelProviders.of(this).get(CurrencyListViewModel::class.java)
     }
 }

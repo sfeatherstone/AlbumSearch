@@ -1,7 +1,5 @@
-package uk.co.wedgetech.blockchain.ui.Detail
+package uk.co.wedgetech.blockchain.ui.detail
 
-import android.content.Context
-import android.net.Uri
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -10,9 +8,9 @@ import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import kotlinx.android.synthetic.main.fragment_currency_detail.*
-import kotlinx.android.synthetic.main.view_holder_fragment.*
 
 import uk.co.wedgetech.blockchain.R
+import uk.co.wedgetech.blockchain.dagger.injector
 import uk.co.wedgetech.blockchain.model.Currency
 import uk.co.wedgetech.blockchain.viewmodel.CurrencyListViewModel
 
@@ -22,7 +20,9 @@ private const val ARG_PARAM1 = "viewModelPosition"
 class CurrencyDetailFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var currencyPosition: Int = 0
-    private lateinit var viewModel: CurrencyListViewModel
+    private val viewModel by lazy {
+        ViewModelProviders.of(this, injector.currencyListViewModelFactory()).get(CurrencyListViewModel::class.java)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,7 +41,6 @@ class CurrencyDetailFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProviders.of(this).get(CurrencyListViewModel::class.java)
 
         val currencyObserver = Observer<List<Currency>> { currencies ->
             if (currencies!=null && currencies.size>currencyPosition)    {

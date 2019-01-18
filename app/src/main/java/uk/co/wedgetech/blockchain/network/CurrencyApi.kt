@@ -21,7 +21,7 @@ interface CurrencyAPI {
 
     companion object {
         //Added to allow for testing
-        internal var BASE_URL : String = BuildConfig.BASE_API
+        private var BASE_URL : String = BuildConfig.BASE_API
 
         val currencyAPI : CurrencyAPI = Retrofit.Builder()
             .baseUrl(BASE_URL)
@@ -30,7 +30,6 @@ interface CurrencyAPI {
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .build().create<CurrencyAPI>(CurrencyAPI::class.java)
 
-        //val currencyAPI : CurrencyAPI = retrofit.create<CurrencyAPI>(CurrencyAPI::class.java)
     }
 
 }
