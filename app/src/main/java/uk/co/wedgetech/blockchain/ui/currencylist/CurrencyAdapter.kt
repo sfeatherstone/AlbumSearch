@@ -1,4 +1,4 @@
-package uk.co.wedgetech.blockchain.ui.CurrencyList
+package uk.co.wedgetech.blockchain.ui.currencylist
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

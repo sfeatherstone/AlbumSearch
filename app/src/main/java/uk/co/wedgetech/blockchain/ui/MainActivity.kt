@@ -2,8 +2,10 @@ package uk.co.wedgetech.blockchain.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.navigation.Navigation.findNavController
+import androidx.navigation.findNavController
 import uk.co.wedgetech.blockchain.R
-import uk.co.wedgetech.blockchain.ui.CurrencyList.CurrencyListFragment
+import uk.co.wedgetech.blockchain.ui.currencylist.CurrencyListFragment
 
 class MainActivity : AppCompatActivity() {
 
@@ -12,9 +14,12 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         if (savedInstanceState == null) {
-            supportFragmentManager.beginTransaction()
+/*            supportFragmentManager.beginTransaction()
                 .replace(R.id.container, CurrencyListFragment.newInstance(), "MAIN")
-                .commitNow()
+                .commitNow()*/
         }
     }
+
+    override fun onSupportNavigateUp()
+            = findNavController(R.id.nav_host_fragment).navigateUp()
 }

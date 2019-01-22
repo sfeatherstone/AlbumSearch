@@ -14,11 +14,8 @@ import uk.co.wedgetech.blockchain.dagger.injector
 import uk.co.wedgetech.blockchain.model.Currency
 import uk.co.wedgetech.blockchain.viewmodel.CurrencyListViewModel
 
-private const val ARG_PARAM1 = "viewModelPosition"
-
 
 class CurrencyDetailFragment : Fragment() {
-    // TODO: Rename and change types of parameters
     private var currencyPosition: Int = 0
     private val viewModel by lazy {
         ViewModelProviders.of(this, injector.currencyListViewModelFactory()).get(CurrencyListViewModel::class.java)
@@ -27,7 +24,7 @@ class CurrencyDetailFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            currencyPosition = it.getInt(ARG_PARAM1)
+            currencyPosition = it.getInt(ARG_CURRENCY_ID)
         }
     }
 
@@ -42,29 +39,33 @@ class CurrencyDetailFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        val currencyObserver = Observer<List<Currency>> { currencies ->
-            if (currencies!=null && currencies.size>currencyPosition)    {
-                //TODO format currency correctly
-                name.text = currencies[currencyPosition].name
-                rank.text = currencies[currencyPosition].rank.toString()
-                price.text = currencies[currencyPosition].price
-                market_cap.text = currencies[currencyPosition].marketCap
-                volume.text = currencies[currencyPosition].volume24h
-                circulating_supply.text = currencies[currencyPosition].circulatingSupply
-                max_supply.text = currencies[currencyPosition].maxSupply
+        val currencyObserver = Observer<List<Currency>> {
+            it?.let { currencies ->
+                if (currencies.size>currencyPosition) {
+                    //TODO format currency correctly
+                    name.text = currencies[currencyPosition].name
+                    rank.text = currencies[currencyPosition].rank.toString()
+                    price.text = currencies[currencyPosition].price
+                    market_cap.text = currencies[currencyPosition].marketCap
+                    volume.text = currencies[currencyPosition].volume24h
+                    circulating_supply.text = currencies[currencyPosition].circulatingSupply
+                    max_supply.text = currencies[currencyPosition].maxSupply
+                }
             }
+
         }
 
         viewModel.currencies.observe(this, currencyObserver)
         viewModel.fetchCurrencies()
     }
     companion object {
+        private const val ARG_CURRENCY_ID = "CURRENCY_ID"
 
         @JvmStatic
         fun newInstance(startCurrencyId: Int) =
             CurrencyDetailFragment().apply {
                 arguments = Bundle().apply {
-                    putInt(ARG_PARAM1, startCurrencyId)
+                    putInt(ARG_CURRENCY_ID, startCurrencyId)
                 }
             }
     }

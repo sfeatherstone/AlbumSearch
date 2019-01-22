@@ -1,4 +1,4 @@
-package uk.co.wedgetech.blockchain.ui.CurrencyList
+package uk.co.wedgetech.blockchain.ui.currencylist
 
 import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
@@ -7,6 +7,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
+import androidx.navigation.Navigation
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.currency_list_fragment.*
@@ -29,7 +31,6 @@ class CurrencyListFragment : Fragment() {
 
     private lateinit var currencyAdapter : CurrencyAdapter
 
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -39,7 +40,20 @@ class CurrencyListFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        //viewModel = ViewModelProviders.of(this).get(CurrencyListViewModel::class.java)
+
+        val listener = object : CurrencyAdapter.CardViewPressListener {
+            override fun onClick(currency: Currency, position: Int) {
+                view?.findNavController()?.navigate(R.id.action_currencyListFragment_to_viewPagerFragment,
+                    ViewPagerFragment.createParams(position))
+                //Navigation.createNavigateOnClickListener(R.id, null)
+/*
+                activity?.supportFragmentManager?.beginTransaction()
+                    ?.replace(R.id.container, ViewPagerFragment.newInstance(position), "MAIN")
+                    ?.commitNow()
+*/
+            }
+        }
+        val currencyAdapter = CurrencyAdapter(listener)
 
         //Catch medal data
         val currencyObserver = Observer<List<Currency>> { currencies ->
@@ -50,15 +64,6 @@ class CurrencyListFragment : Fragment() {
 
         viewModel.currencies.observe(this, currencyObserver)
         viewModel.fetchCurrencies()
-
-        val listener = object : CurrencyAdapter.CardViewPressListener {
-            override fun onClick(currency: Currency, position: Int) {
-                activity?.supportFragmentManager?.beginTransaction()
-                    ?.replace(R.id.container, ViewPagerFragment.newInstance(position), "MAIN")
-                    ?.commitNow()
-            }
-        }
-        currencyAdapter = CurrencyAdapter(listener)
 
         recycler.layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
         recycler.adapter = currencyAdapter

@@ -6,8 +6,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentStatePagerAdapter
 import androidx.lifecycle.Observer
 import kotlinx.android.synthetic.main.view_holder_fragment.*
 
@@ -16,15 +14,13 @@ import uk.co.wedgetech.blockchain.dagger.injector
 import uk.co.wedgetech.blockchain.model.Currency
 import uk.co.wedgetech.blockchain.viewmodel.CurrencyListViewModel
 
-private const val ARG_PARAM1 = "param1"
-
 class ViewPagerFragment : Fragment() {
 
     private val viewModel by lazy {
         ViewModelProviders.of(this, injector.currencyListViewModelFactory()).get(CurrencyListViewModel::class.java)
     }
 
-    private lateinit var pagerAdapter: DemoCollectionPagerAdapter
+    private lateinit var pagerAdapter: DetailsPagerAdapter
     private var initialPosition: Int = 0
 
     override fun onCreateView(
@@ -32,7 +28,7 @@ class ViewPagerFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         arguments?.let {
-            initialPosition = it.getInt(ARG_PARAM1)
+            initialPosition = it.getInt(ARG_CURRENCY_ID)
         }
 
         return inflater.inflate(R.layout.view_holder_fragment, container, false)
@@ -42,7 +38,7 @@ class ViewPagerFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
 
         activity?.let {
-            pagerAdapter = DemoCollectionPagerAdapter(it.supportFragmentManager)
+            pagerAdapter = DetailsPagerAdapter(it.supportFragmentManager)
         }
 
         val currencyObserver = Observer<List<Currency>> { currencies ->
@@ -60,31 +56,19 @@ class ViewPagerFragment : Fragment() {
     }
 
     companion object {
+        private const val ARG_CURRENCY_ID = "CURRENCY_ID"
 
         @JvmStatic
         fun newInstance(startCurrencyId: Int) =
             ViewPagerFragment().apply {
-                arguments = Bundle().apply {
-                    putInt(ARG_PARAM1, startCurrencyId)
-                }
+                arguments = createParams(startCurrencyId)
+            }
+
+        fun createParams(startCurrencyId: Int) =
+            Bundle().apply {
+                putInt(ARG_CURRENCY_ID, startCurrencyId)
             }
     }
 
 }
 
-class DemoCollectionPagerAdapter(fm: FragmentManager) : FragmentStatePagerAdapter(fm) {
-    private lateinit var currencies : List<Currency>
-
-    fun setItems(items :List<Currency>) {
-        this.currencies = items
-    }
-    override fun getCount(): Int  = currencies.size
-
-    override fun getItem(i: Int): Fragment {
-        return CurrencyDetailFragment.newInstance(i)
-    }
-
-    override fun getPageTitle(position: Int): CharSequence {
-        return "OBJECT " + (position + 1)
-    }
-}

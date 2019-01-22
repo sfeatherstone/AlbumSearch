@@ -15,9 +15,11 @@ class BestCurrency @Inject constructor(private var context: Context) {
     fun getCurrency():String {
         val defaultLocale = Locale.getDefault()
         val currency = Currency.getInstance(defaultLocale)
-        return if (currency.currencyCode in supportedCurrencies)
+        return if (currency.currencyCode in supportedCurrencies) {
             currency.currencyCode
-        else
+        }
+        else {
             "USD"
+        }
     }
 }
