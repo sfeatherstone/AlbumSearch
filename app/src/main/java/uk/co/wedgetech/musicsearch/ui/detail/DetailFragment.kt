@@ -7,12 +7,15 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_album_detail.*
 
 import uk.co.wedgetech.musicsearch.R
 import uk.co.wedgetech.musicsearch.dagger.injector
 import uk.co.wedgetech.musicsearch.model.Album
 import uk.co.wedgetech.musicsearch.viewmodel.AlbumDetailViewModel
+import android.widget.ArrayAdapter
+import uk.co.wedgetech.musicsearch.model.Track
 
 
 class DetailFragment : Fragment() {
@@ -40,17 +43,22 @@ class DetailFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
 
         val albumObserver = Observer<Album> {
-            it?.let { albums ->
-                    //TODO format album correctly
-                    name.text = albums.name
-/*
-                    rank.text = currencies[currencyPosition].rank.toString()
-                    price.text = currencies[currencyPosition].price
-                    market_cap.text = currencies[currencyPosition].marketCap
-                    volume.text = currencies[currencyPosition].volume24h
-                    circulating_supply.text = currencies[currencyPosition].circulatingSupply
-                    max_supply.text = currencies[currencyPosition].maxSupply
-*/
+            it?.let { album ->
+                    //TODO format albumNetwork correctly
+                    name.text = album.name
+                    artist.text = album.artist
+
+                var imageUrl = album.images.findLast { value -> value.size == "extralarge" }
+                if (imageUrl==null) {
+                    imageUrl = album.images.findLast { value -> value.size == "large" }
+                }
+
+                Picasso.get()
+                    .load(imageUrl?.url)
+                    .into(image)
+
+                //Track list quick and dirty
+                tracks.adapter = ArrayAdapter<Track>(context, android.R.layout.simple_list_item_1, album.tracks)
             }
 
         }
@@ -60,13 +68,5 @@ class DetailFragment : Fragment() {
     }
     companion object {
         private const val ARG_ALBUM_ID = "ALBUM_ID"
-
-        @JvmStatic
-        fun newInstance(albumId: String) =
-            DetailFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_ALBUM_ID, albumId)
-                }
-            }
     }
 }

@@ -8,19 +8,19 @@ import io.reactivex.schedulers.Schedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.observers.DisposableSingleObserver
 import uk.co.wedgetech.musicsearch.model.Album
-import uk.co.wedgetech.musicsearch.repository.CurrencyCached
+import uk.co.wedgetech.musicsearch.repository.AlbumRepository
 import javax.inject.Inject
 
 
-class AlbumSearchViewModel @Inject constructor(private val currencyCached: CurrencyCached) : ViewModel() {
+class AlbumSearchViewModel @Inject constructor(private val albumRepository: AlbumRepository) : ViewModel() {
 
     private val albumsMutable : MutableLiveData<List<Album>> = MutableLiveData()
     val albums: LiveData<List<Album>> = albumsMutable
 
     private val disposables = CompositeDisposable()
 
-    fun fetchCurrencies() {
-        val subscribe = currencyCached.searchAlbums()
+    fun searchAlbums(search:String) {
+        val subscribe = albumRepository.searchAlbums(search)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeWith(

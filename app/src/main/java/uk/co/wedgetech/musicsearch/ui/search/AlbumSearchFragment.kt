@@ -36,20 +36,26 @@ class AlbumSearchFragment : Fragment() {
 
         val listener = object : AlbumSearchAdapter.CardViewPressListener {
             override fun onClick(album: Album) {
-                view?.findNavController()?.navigate(AlbumSearchFragmentDirections.ActionCurrencyListFragmentToDetailFragment(album.mbid))
+                if (!album.mbid.isNullOrBlank()) {
+                    view?.findNavController()
+                        ?.navigate(AlbumSearchFragmentDirections.ActionCurrencyListFragmentToDetailFragment(album.mbid))
+                }
             }
         }
         val albumSearchAdaptor = AlbumSearchAdapter(listener)
 
         //Catch medal data
-        val currencyObserver = Observer<List<Album>> { currencies ->
-            if (currencies!=null)    {
-                albumSearchAdaptor.setCurrency(currencies)
+        val searchObserver = Observer<List<Album>> { albums ->
+            if (albums!=null)    {
+                albumSearchAdaptor.setCurrency(albums)
             }
         }
 
-        viewModel.albums.observe(this, currencyObserver)
-        viewModel.fetchCurrencies()
+        search_button.setOnClickListener {
+            viewModel.searchAlbums(search_src_text.text.toString())
+        }
+
+        viewModel.albums.observe(this, searchObserver)
 
         recycler.layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
         recycler.adapter = albumSearchAdaptor

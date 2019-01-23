@@ -7,7 +7,7 @@ import uk.co.wedgetech.musicsearch.model.network.AlbumInfoPayload
 import uk.co.wedgetech.musicsearch.model.network.AlbumSearchPayload
 
 interface LastFmApi {
-    @GET("?method=album.search&format=json&limit=50")
+    @GET("?method=album.search&format=json&limit=1000")
     fun searchAlbums(@Query("page") page:Int,
                   @Query("album") album:String,
                   @Query("api_key") apiKey: String)

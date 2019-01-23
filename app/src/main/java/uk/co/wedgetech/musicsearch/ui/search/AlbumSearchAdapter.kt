@@ -9,7 +9,7 @@ import uk.co.wedgetech.musicsearch.model.Album
 class AlbumSearchAdapter(private val listener: CardViewPressListener) : RecyclerView.Adapter<AlbumSearchViewHolder>() {
 
     interface CardViewPressListener {
-        fun onClick(currency: Album)
+        fun onClick(album: Album)
     }
 
     private var items: List<Album> = listOf()

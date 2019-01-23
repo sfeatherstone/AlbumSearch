@@ -14,6 +14,7 @@ import javax.inject.Singleton
 @Module
 object RetrofitModule {
 
+    //TODO Only apply logging interceptor for debug builds
     @JvmStatic @Provides
     @Singleton
     fun provideCurrencyApi(): LastFmApi = Retrofit.Builder()
@@ -26,12 +27,3 @@ object RetrofitModule {
         .build()
         .create<LastFmApi>(LastFmApi::class.java)
 }
-/*
-
-{
-    HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
-    interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
-    OkHttpClient client = OkHttpClient().Builder().addInterceptor(HttpLoggingInterceptor().apply {
-        level = HttpLoggingInterceptor.Level.BODY
-    }).build();
-}*/

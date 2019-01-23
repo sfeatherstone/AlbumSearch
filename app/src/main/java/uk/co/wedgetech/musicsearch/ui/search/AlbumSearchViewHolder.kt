@@ -18,11 +18,13 @@ class AlbumSearchViewHolder(override val containerView: View) : RecyclerView.Vie
 
         val medImage = album.images.findLast { value -> value.size == "medium" }
 
-        Picasso.get()
-            .load(medImage?.url)
-            .resize(36, 36)
-            .centerCrop()
-            .into(image)
+        if (!medImage?.url.isNullOrBlank()) {
+            Picasso.get()
+                .load(medImage?.url)
+                .resize(36, 36)
+                .centerCrop()
+                .into(image)
+        }
 
         //Click handler
         containerView.setOnClickListener {
