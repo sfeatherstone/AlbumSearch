@@ -16,6 +16,7 @@ import kotlinx.android.synthetic.main.currency_list_fragment.*
 import uk.co.wedgetech.blockchain.dagger.injector
 import uk.co.wedgetech.blockchain.R
 import uk.co.wedgetech.blockchain.model.Currency
+import uk.co.wedgetech.blockchain.ui.detail.CurrencyDetailFragment
 import uk.co.wedgetech.blockchain.ui.detail.ViewPagerFragment
 import uk.co.wedgetech.blockchain.viewmodel.CurrencyListViewModel
 
@@ -43,14 +44,7 @@ class CurrencyListFragment : Fragment() {
 
         val listener = object : CurrencyAdapter.CardViewPressListener {
             override fun onClick(currency: Currency, position: Int) {
-                view?.findNavController()?.navigate(R.id.action_currencyListFragment_to_viewPagerFragment,
-                    ViewPagerFragment.createParams(position))
-                //Navigation.createNavigateOnClickListener(R.id, null)
-/*
-                activity?.supportFragmentManager?.beginTransaction()
-                    ?.replace(R.id.container, ViewPagerFragment.newInstance(position), "MAIN")
-                    ?.commitNow()
-*/
+                view?.findNavController()?.navigate(CurrencyListFragmentDirections.ActionCurrencyListFragmentToViewPagerFragment(position))
             }
         }
         val currencyAdapter = CurrencyAdapter(listener)
