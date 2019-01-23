@@ -7,21 +7,15 @@ apply plugin: 'androidx.navigation.safeargs'
 android {
     compileSdkVersion 28
     defaultConfig {
-        applicationId "uk.co.wedgetech.blockchain"
+        applicationId "uk.co.wedgetech.musicsearch"
         minSdkVersion 21
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
-
-/*
-        buildConfigField "String", "BASE_API", "\"https://sandbox-api.coinmarketcap.com/\""
-        buildConfigField "String", "API_TOKEN", "\"151cd86d-35f2-461f-8f51-f697a2caf436\""
-*/
-
-        buildConfigField "String", "BASE_API", "\"https://pro-api.coinmarketcap.com/\""
-        buildConfigField "String", "API_TOKEN", "\"9dcbd78a-3258-438b-bd1e-8a695bf5c9a1\""
+        buildConfigField "String", "BASE_API", "\" https://ws.audioscrobbler.com/2.0/\""
+        buildConfigField "String", "API_TOKEN", "\"b323af8cedf32aa0349e7a478c29e9c4\""
 
     }
     buildTypes {
@@ -53,6 +47,7 @@ dependencies {
     implementation 'com.squareup.retrofit2:retrofit:2.4.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.4.0'
     implementation 'com.squareup.retrofit2:adapter-rxjava2:2.4.0'
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.10.0'
 
     //Dagger2
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
@@ -67,6 +62,9 @@ dependencies {
 
     //GSON
     implementation 'com.google.code.gson:gson:2.8.5'
+
+    //Image loading
+    implementation 'com.squareup.picasso:picasso:2.71828'
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.1.1'

@@ -1,23 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/basic_navigation"
-    app:startDestination="@id/currencyListFragment">
+            xmlns:tools="http://schemas.android.com/tools" android:id="@+id/basic_navigation"
+    app:startDestination="@id/albumSearchFragment">
 
     <fragment
-        android:id="@+id/currencyListFragment"
-        android:name="uk.co.wedgetech.blockchain.ui.currencylist.CurrencyListFragment"
-        android:label="CurrencyListFragment">
-        <action
-            android:id="@+id/action_currencyListFragment_to_viewPagerFragment"
-            app:destination="@id/viewPagerFragment" />
+        android:id="@+id/albumSearchFragment"
+        android:name="uk.co.wedgetech.musicsearch.ui.search.AlbumSearchFragment"
+        android:label="AlbumSearchFragment">
+        <action android:id="@+id/action_currencyListFragment_to_detailFragment" app:destination="@id/detailFragment"/>
     </fragment>
-    <fragment
-        android:id="@+id/viewPagerFragment"
-        android:name="uk.co.wedgetech.blockchain.ui.detail.ViewPagerFragment"
-        android:label="ViewPagerFragment">
-        <argument
-            android:name="CURRENCY_ID"
-            app:argType="integer" />
+    <fragment android:id="@+id/detailFragment" android:name="uk.co.wedgetech.musicsearch.ui.detail.DetailFragment"
+              android:label="fragment_album_detail" tools:layout="@layout/fragment_album_detail">
+        <argument android:name="ALBUM_ID" app:argType="string"/>
     </fragment>
 </navigation>
